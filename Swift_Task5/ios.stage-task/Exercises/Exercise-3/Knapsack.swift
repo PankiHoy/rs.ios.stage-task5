@@ -21,9 +21,9 @@ public final class Knapsack {
         let drinkMatrix = getMatrix(maxWeight, drinks.count, drinks)
         
         var maximumDistance = 0
-        for i in 0...maxWeight {
+        for i in 1...maxWeight {
             let currentFoodVariation = foodMatrix[foods.count][i]
-            let currentDrinkVariation = drinkMatrix[drinks.count][maxWeight-i]
+            let currentDrinkVariation = drinkMatrix[drinks.count][maxWeight-i] //maxWeight-i шоб войти в границы веса
             
             if min(currentFoodVariation, currentDrinkVariation) > maximumDistance {
                 maximumDistance = min(currentFoodVariation, currentDrinkVariation)
@@ -44,17 +44,23 @@ public final class Knapsack {
         
         var matrix = Array(repeating: Array(repeating: 0, count: maxWeight + 1), count: profits.count)
         
-        for i in 0...numberOfElements {
-            for w in 0...maxWeight {
-                if i == 0 || w == 0 {
-                    matrix[i][w] = 0
-                } else if weights[i] <= w {
+        for i in 1...numberOfElements {
+            for w in 1...maxWeight {
+                if weights[i] <= w {
                     matrix[i][w] = max((profits[i] + matrix[i-1][w-weights[i]]), matrix[i-1][w])
                 } else {
                     matrix[i][w] = matrix[i-1][w]
                 }
             }
         }
+        
+//        for i in 0..<matrix.count {
+//            for j in 0..<matrix[i].count {
+//                print("\(matrix[i][j]) ", terminator: "")
+//            }
+//            print("")
+//        }
+//        print("")
         
         return matrix
     }
